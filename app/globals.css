@@ -3,16 +3,21 @@
 @tailwind utilities;
 
 :root { color-scheme: light; }
-html { scroll-behavior: smooth; }
-body { @apply bg-canvas text-ink antialiased; }
+html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
+body { @apply bg-canvas text-ink antialiased; min-width: 0; }
 * { box-sizing: border-box; }
-::selection { background:#111; color:#fff; }
+::selection { background: #111; color: #fff; }
+/* Allow grid children and long vehicle names/prices to shrink instead of pushing cards sideways. */
+main, main > *, section, article { min-width: 0; }
+img, video { max-width: 100%; }
+:where(h1, h2, h3, p) { overflow-wrap: break-word; }
+:where(button, a, input, select, textarea):focus-visible { outline: 2px solid #B08D57; outline-offset: 3px; }
 
 @layer components {
-  .circle-btn { @apply grid h-11 w-11 place-items-center rounded-full bg-white ring-1 ring-black/[.06] transition hover:bg-black hover:text-white; }
+  .circle-btn { @apply grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white ring-1 ring-black/[.06] transition hover:bg-black hover:text-white sm:h-11 sm:w-11; }
   .eyebrow { @apply text-[10px] font-bold uppercase tracking-[.24em] text-bronze; }
-  .section-wrap { @apply mx-auto max-w-[1400px] px-5 md:px-8 lg:px-10; }
-  .pill-black { @apply inline-flex items-center justify-center rounded-full bg-black px-6 py-3.5 text-sm font-semibold text-white transition hover:scale-[1.02]; }
-  .pill-outline { @apply inline-flex items-center justify-center rounded-full border border-black/40 bg-transparent px-6 py-3.5 text-sm font-semibold transition hover:bg-black hover:text-white; }
-  .field { @apply w-full rounded-2xl border border-black/10 bg-white px-4 py-3 outline-none transition focus:border-black/40 focus:ring-2 focus:ring-black/5; }
+  .section-wrap { @apply mx-auto w-full max-w-[1400px] px-5 md:px-8 lg:px-10; }
+  .pill-black { @apply inline-flex min-h-11 items-center justify-center rounded-full bg-black px-6 py-3.5 text-center text-sm font-semibold text-white transition hover:scale-[1.02]; }
+  .pill-outline { @apply inline-flex min-h-11 items-center justify-center rounded-full border border-black/40 bg-transparent px-6 py-3.5 text-center text-sm font-semibold transition hover:bg-black hover:text-white; }
+  .field { @apply w-full min-w-0 rounded-2xl border border-black/10 bg-white px-4 py-3 outline-none transition focus:border-black/40 focus:ring-2 focus:ring-black/5; }
 }

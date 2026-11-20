@@ -9,5 +9,5 @@ export function VehicleImage({car,index=0,priority=false,className='',sizes='(ma
  const reference=car.images[index] || car.images[0] || ''
  const fallback='/vehicle-placeholder.svg'
  const src=reference && reference!==broken ? reference : fallback
- return <Image src={src} alt={src===fallback?`Reference image unavailable for ${car.brand} ${car.model}`:`${car.year} ${car.brand} ${car.model} model reference photo, angle ${index+1}`} fill sizes={sizes} priority={priority} className={`object-cover ${className}`} onError={()=>setBroken(reference)}/>
+ return <Image src={src} alt={src===fallback?`Reference image unavailable for ${car.brand} ${car.model}`:`${car.year} ${car.brand} ${car.model} model reference photo, angle ${index+1}`} fill sizes={sizes} priority={priority} unoptimized={src.startsWith('https://thumb.wikimedia.org/')} className={`object-cover ${className}`} onError={()=>setBroken(reference)}/>
 }

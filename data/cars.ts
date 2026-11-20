@@ -55,9 +55,15 @@ const seedCars: Omit<Car,'photoSources'>[] = [
   {id:'28',slug:'tesla-model-y-long-range-2022',brand:'Tesla',model:'Model Y Long Range',year:2022,condition:'Foreign used',price:78000000,mileage:22800,transmission:'Automatic',engine:'Dual Motor Electric',fuel:'Electric',bodyType:'SUV',colour:'Pearl White',status:'Sample model',negotiable:true,dutyCleared:true,images:[]}
 ]
 
+// Wikimedia serves smaller thumbnails from thumb.wikimedia.org. The previous
+// upload.wikimedia.org/.../1024px-... variants returned HTTP 400.
+const workingThumbnail = (url: string) => url
+  .replace('https://upload.wikimedia.org/wikipedia/commons/thumb/', 'https://thumb.wikimedia.org/wikipedia/commons/thumb/')
+  .replace('/1024px-', '/960px-')
+
 export const cars: Car[] = seedCars.map(car => {
   const gallery = referencePhotos[car.id] || []
-  return { ...car, images: gallery.map(photo=>photo.url), photoSources: gallery.map(photo=>photo.source) }
+  return { ...car, images: gallery.map(photo=>workingThumbnail(photo.url)), photoSources: gallery.map(photo=>photo.source) }
 })
 
 export const money = (n:number) => `₦${n.toLocaleString('en-NG')}`

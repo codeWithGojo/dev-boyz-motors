@@ -1,0 +1,11 @@
+'use client'
+import { useState } from 'react'
+import type { Car } from '@/data/cars'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { VehicleImage } from './VehicleImage'
+export function CarGallery({car}:{car:Car}){
+ const [selected,setSelected]=useState(0)
+ const length=car.images.length
+ const shift=(direction:number)=>setSelected(value=>(value+direction+length)%length)
+ return <div className="min-w-0"><div className="relative aspect-[1.2/1] min-w-0 overflow-hidden rounded-[28px] bg-[#ddd7cf] md:aspect-[1.35/1]"><VehicleImage car={car} index={selected} priority sizes="(max-width: 1024px) 100vw, 60vw"/><div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-2 bg-gradient-to-t from-black/70 to-transparent p-3 text-white sm:p-5"><span className="max-w-[75%] text-[10px] leading-4 sm:text-xs">Model reference · Not actual dealership stock</span><span className="rounded-full bg-black/60 px-3 py-1.5 text-xs">{selected+1}/{length}</span></div>{length>1&&<><button type="button" onClick={()=>shift(-1)} aria-label="Previous vehicle photo" className="absolute left-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/95"><ChevronLeft size={20}/></button><button type="button" onClick={()=>shift(1)} aria-label="Next vehicle photo" className="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/95"><ChevronRight size={20}/></button></>}</div><div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4">{car.images.map((source,index)=><button type="button" key={`${index}-${source}`} onClick={()=>setSelected(index)} aria-label={`Show photo ${index+1}`} aria-pressed={selected===index} className={`relative aspect-[1.35/1] overflow-hidden rounded-xl bg-neutral-200 ${selected===index?'ring-2 ring-black ring-offset-2 ring-offset-canvas':''}`}><VehicleImage car={car} index={index} sizes="(max-width: 640px) 30vw, 180px"/></button>)}</div><p className="mt-4 text-xs leading-5 text-neutral-500">Photo credit and reuse licence: <a href={car.photoSources[selected]} target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-4">View original on Wikimedia Commons</a>. Actual colour, trim, vehicle condition and availability must be confirmed using real stock photos.</p></div>
+}

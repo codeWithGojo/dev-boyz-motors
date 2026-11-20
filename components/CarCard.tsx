@@ -1,13 +1,16 @@
 'use client'
 import Link from 'next/link'
-import { Heart, ArrowRight } from 'lucide-react'
-import { Car, km, money } from '@/data/cars'
+import { ArrowUpRight, Heart } from 'lucide-react'
+import type { Car } from '@/data/cars'
+import { km, money } from '@/data/cars'
+import { monthlyRepayment, defaultFinance } from '@/lib/finance'
 import { useShop } from '@/context/ShopContext'
-
-export function CarCard({car}:{car:Car}){
- const {wishlist,toggleWishlist}=useShop(); const active=wishlist.includes(car.id)
- return <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-[24px] bg-card ring-1 ring-black/[.06] transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5">
-   <div className="relative aspect-[1.18/1] min-w-0 shrink-0 overflow-hidden bg-neutral-200"><img src={car.images[0]} alt={`${car.brand} ${car.model}`} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"/><span className={`absolute left-3 top-3 max-w-[calc(100%-5rem)] rounded-full px-3 py-1.5 text-xs font-medium sm:left-4 sm:top-4 ${car.condition==='Brand new'?'bg-bronze text-white':'bg-black/80 text-white'}`}>{car.condition}</span><button type="button" aria-label="Toggle wishlist" onClick={()=>toggleWishlist(car.id)} className={`absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full bg-white shadow-sm sm:right-4 sm:top-4 ${active?'text-red-500':''}`}><Heart size={18} fill={active?'currentColor':'none'}/></button></div>
-   <div className="flex min-w-0 flex-1 flex-col p-5"><div className="eyebrow">{car.brand}</div><Link href={`/cars/${car.slug}`} className="mt-1 block break-words text-xl font-bold leading-snug tracking-tight">{car.model}</Link><p className="mt-auto flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 pt-6 text-sm text-neutral-500"><span>{car.year}</span><span aria-hidden="true">·</span><span>{km(car.mileage)}</span><span aria-hidden="true">·</span><span>{car.transmission}</span></p><div className="mt-5 flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-3 border-t border-black/10 pt-5"><strong className="min-w-0 break-words text-lg font-bold tabular-nums sm:text-xl">{money(car.price)}</strong><Link href={`/cars/${car.slug}`} className="flex shrink-0 items-center gap-2 text-sm font-semibold">View <ArrowRight size={16} className="transition group-hover:translate-x-1"/></Link></div></div>
+import { VehicleImage } from './VehicleImage'
+export function CarCard({car,priority=false}:{car:Car;priority?:boolean}){
+ const {wishlist,toggleWishlist}=useShop()
+ const saved=wishlist.includes(car.id)
+ return <article className="group min-w-0 overflow-hidden rounded-[26px] bg-card shadow-[0_5px_30px_rgba(0,0,0,.025)] ring-1 ring-black/[.07] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/[.07]">
+  <div className="relative aspect-[1.2/1] overflow-hidden bg-[#dedbd5]"><Link href={`/cars/${car.slug}`} aria-label={`View ${car.brand} ${car.model}`} className="absolute inset-0"><VehicleImage car={car} priority={priority} sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw" className="transition duration-700 group-hover:scale-105"/></Link><span className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-semibold text-black">Model reference photo</span><button type="button" aria-label={saved?`Remove ${car.model} from wishlist`:`Save ${car.model} to wishlist`} aria-pressed={saved} onClick={()=>toggleWishlist(car.id)} className={`absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-white shadow-md focus-visible:outline focus-visible:outline-4 focus-visible:outline-bronze ${saved?'text-rose-600':'text-black'}`}><Heart size={18} fill={saved?'currentColor':'none'}/></button></div>
+  <div className="p-5"><div className="eyebrow">{car.brand} · {car.condition}</div><Link href={`/cars/${car.slug}`} className="mt-2 block text-[1.3rem] font-bold leading-snug tracking-[-.025em] hover:underline underline-offset-4">{car.model}</Link><p className="mt-3 text-xs text-neutral-500">{car.year} <span className="mx-1.5">·</span> {km(car.mileage)} <span className="mx-1.5">·</span> {car.transmission}</p><div className="mt-5 border-t border-black/10 pt-5"><div className="flex min-w-0 flex-wrap items-center justify-between gap-2"><strong className="min-w-0 break-words text-lg tracking-tight sm:text-xl">{money(car.price)}</strong><Link href={`/cars/${car.slug}`} aria-label={`Details for ${car.model}`} className="grid h-9 w-9 place-items-center rounded-full bg-black text-white"><ArrowUpRight size={17}/></Link></div><p className="mt-2 text-xs text-neutral-500">Est. {money(monthlyRepayment({price:car.price,...defaultFinance}))}/mo · 40% down, 48 months</p></div></div>
  </article>
 }

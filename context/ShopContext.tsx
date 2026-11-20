@@ -10,6 +10,8 @@ type ShopState = {
   toggleWishlist: (id:string)=>void
   toggleGarage: (id:string)=>void
   removeGarage: (id:string)=>void
+  clearGarage: ()=>void
+  clearWishlist: ()=>void
   setGarageOpen: (v:boolean)=>void
 }
 
@@ -41,6 +43,8 @@ export function ShopProvider({children}:{children:React.ReactNode}) {
     toggleWishlist:(id:string)=>setWishlist(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]),
     toggleGarage:(id:string)=>setGarage(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]),
     removeGarage:(id:string)=>setGarage(v=>v.filter(x=>x!==id)),
+    clearGarage:()=>setGarage([]),
+    clearWishlist:()=>setWishlist([]),
     setGarageOpen
   }),[wishlist,garage,garageOpen])
 

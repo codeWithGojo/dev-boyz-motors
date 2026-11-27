@@ -5,3 +5,8 @@ out
 .vercel
 .DS_Store
 npm-debug.log*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/

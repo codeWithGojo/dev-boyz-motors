@@ -2,34 +2,178 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
-html { scroll-behavior: smooth; }
-body { @apply bg-canvas text-ink antialiased; }
-* { box-sizing: border-box; }
-::selection { background:#111; color:#fff; }
+/* ─── Finishes ──────────────────────────────────────────────────────────────
+   Each finish is a complete palette inspired by a classic paint-and-leather
+   pairing: page canvas, ink, a deep "night" tone for dark sections and primary
+   buttons, a metallic accent, the hero backdrop, and a display typeface.
+   Values are RGB channels so Tailwind can apply opacity (bg-ink/10 etc.).
+   --display-width is the face's average capital width, used to size the hero word.
+   See lib/accents.ts for names and swatches. */
 
-@layer components {
-  .circle-btn { @apply grid h-11 w-11 place-items-center rounded-full bg-white ring-1 ring-black/[.06] transition hover:bg-black hover:text-white; }
-  .eyebrow { @apply text-[10px] font-bold uppercase tracking-[.24em] text-bronze; }
-  .section-wrap { @apply mx-auto max-w-[1400px] px-5 md:px-8 lg:px-10; }
-  .pill-black { @apply inline-flex items-center justify-center rounded-full bg-black px-6 py-3.5 text-sm font-semibold text-white transition hover:scale-[1.02]; }
-  .pill-outline { @apply inline-flex items-center justify-center rounded-full border border-black/40 bg-transparent px-6 py-3.5 text-sm font-semibold transition hover:bg-black hover:text-white; }
-  .field { @apply w-full rounded-2xl border border-black/10 bg-white px-4 py-3 outline-none transition focus:border-black/40 focus:ring-2 focus:ring-black/5; }
+/* Champagne & Onyx — warm ivory, onyx black, champagne gold. Bodoni Moda. */
+html, html[data-accent="bronze"] {
+  color-scheme: light;
+  --canvas: 241 237 230; --card: 250 248 244; --surface: 255 255 255;
+  --ink: 21 19 16; --muted: 112 106 98; --line: 40 30 15;
+  --night: 22 19 15; --accent: 168 132 76;
+  --hero-1: 250 248 243; --hero-2: 226 220 210; --hero-3: 186 178 166;
+  --font-display: var(--font-bodoni); --display-width: .74;
+}
+/* Racing Green & Tan — British racing green with saddle-tan leather. Cormorant Garamond. */
+html[data-accent="emerald"] {
+  --canvas: 236 234 224; --card: 248 247 240; --surface: 255 255 251;
+  --ink: 14 34 26; --muted: 92 108 99; --line: 14 34 26;
+  --night: 16 46 35; --accent: 161 106 56;
+  --hero-1: 247 246 238; --hero-2: 214 220 206; --hero-3: 150 170 152;
+  --font-display: var(--font-cormorant); --display-width: .66;
+}
+/* Bordeaux & Rose Gold — deep wine with rose-gold metalwork. Playfair Display. */
+html[data-accent="oxblood"] {
+  --canvas: 243 235 232; --card: 251 247 245; --surface: 255 253 252;
+  --ink: 40 14 22; --muted: 122 98 103; --line: 40 14 22;
+  --night: 64 16 32; --accent: 172 100 84;
+  --hero-1: 252 246 243; --hero-2: 234 214 209; --hero-3: 194 156 153;
+  --font-display: var(--font-playfair); --display-width: .78;
+}
+/* Midnight & Platinum — midnight navy with brushed platinum. Syne. */
+html[data-accent="sapphire"] {
+  --canvas: 234 237 242; --card: 248 249 251; --surface: 255 255 255;
+  --ink: 11 19 36; --muted: 96 106 124; --line: 11 19 36;
+  --night: 14 26 52; --accent: 88 112 156;
+  --hero-1: 247 249 252; --hero-2: 212 219 231; --hero-3: 152 166 190;
+  --font-display: var(--font-syne); --display-width: .86;
 }
 
-/* Responsive collision safeguards: keep content in normal flow and contain long labels. */
-html { scroll-padding-top: 6rem; }
-body { min-width: 320px; overflow-x: clip; }
+/* Dark mode versions: deep tinted canvases with brighter metallics. */
+html.dark, html.dark[data-accent="bronze"] {
+  color-scheme: dark;
+  --canvas: 14 13 12; --card: 24 22 20; --surface: 35 32 29;
+  --ink: 241 236 228; --muted: 162 155 146; --line: 255 250 240;
+  --night: 8 7 6; --accent: 206 170 112;
+  --hero-1: 48 44 39; --hero-2: 27 25 22; --hero-3: 12 11 10;
+}
+html.dark[data-accent="emerald"] {
+  --canvas: 8 20 15; --card: 14 31 24; --surface: 21 42 33;
+  --ink: 236 238 228; --muted: 150 166 156; --line: 236 245 238;
+  --night: 4 14 10; --accent: 204 150 98;
+  --hero-1: 26 58 45; --hero-2: 13 34 26; --hero-3: 5 15 11;
+}
+html.dark[data-accent="oxblood"] {
+  --canvas: 21 9 12; --card: 33 15 20; --surface: 46 22 29;
+  --ink: 245 234 232; --muted: 172 148 151; --line: 255 238 240;
+  --night: 12 4 7; --accent: 218 150 128;
+  --hero-1: 68 24 36; --hero-2: 36 12 19; --hero-3: 14 5 8;
+}
+html.dark[data-accent="sapphire"] {
+  --canvas: 8 12 22; --card: 15 21 37; --surface: 23 31 51;
+  --ink: 234 238 246; --muted: 150 160 180; --line: 230 238 255;
+  --night: 4 8 18; --accent: 160 180 220;
+  --hero-1: 30 44 74; --hero-2: 15 23 43; --hero-3: 6 10 20;
+}
+
+/* Signature backdrop used by the home hero and owner page. */
+.hero-bg { background: radial-gradient(120% 95% at 50% 28%, rgb(var(--hero-1)) 0%, rgb(var(--hero-2)) 52%, rgb(var(--hero-3)) 100%); transition: background .6s ease; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+body { @apply bg-canvas text-ink antialiased transition-colors duration-300; min-width: 320px; overflow-x: clip; }
+* { box-sizing: border-box; }
+::selection { background: rgb(var(--accent)); color: #fff; }
 main { min-width: 0; }
 img, video, svg { max-width: 100%; }
 :where(h1,h2,h3,p) { overflow-wrap: break-word; }
 :where(button,a,select,input,textarea) { max-width: 100%; }
-:where(button,a,select,input,textarea):focus-visible { outline: 2px solid #b08d57; outline-offset: 3px; }
-@media (max-width: 639px) { .section-wrap { padding-inline: 1rem; } .pill-black,.pill-outline { min-height: 44px; text-align: center; } }
+:where(button,a,select,input,textarea,[tabindex]):focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 3px; }
 
-/* Keep fixed overlays inside the viewport and protect narrow flex children. */
-@media (max-width: 480px) {
-  .section-wrap { padding-inline: 16px; }
-  h1, h2, h3 { overflow-wrap: anywhere; }
-  .field { min-width: 0; }
+/* Premium editorial type: Didone serif headlines, light weights, generous tracking. */
+h1, h2 { font-family: var(--font-display), Didot, Georgia, serif; font-weight: 500 !important; letter-spacing: -0.012em !important; }
+h1 { line-height: 1.02 !important; }
+.price { font-family: var(--font-display), Didot, Georgia, serif; font-weight: 500; letter-spacing: 0; font-feature-settings: "lnum"; }
+
+@layer components {
+  .circle-btn { @apply grid h-11 w-11 place-items-center rounded-full bg-surface ring-1 ring-line/[.08] transition hover:bg-ink hover:text-canvas; }
+  .eyebrow { @apply text-[10px] font-semibold uppercase tracking-[.32em] text-bronze; }
+  .section-wrap { @apply mx-auto max-w-[1400px] px-5 md:px-8 lg:px-10; }
+  .pill-black { @apply inline-flex items-center justify-center rounded-full bg-ink px-7 py-3.5 text-sm font-medium tracking-[.02em] text-canvas shadow-[0_10px_30px_-12px_rgba(0,0,0,.45)] transition hover:-translate-y-px hover:shadow-[0_16px_34px_-12px_rgba(0,0,0,.5)] active:translate-y-0; }
+  .pill-outline { @apply inline-flex items-center justify-center rounded-full border border-line/15 bg-surface/70 px-7 py-3.5 text-sm font-medium tracking-[.02em] shadow-[inset_0_1px_0_rgba(255,255,255,.6),0_4px_14px_-8px_rgba(0,0,0,.25)] backdrop-blur transition hover:bg-ink hover:text-canvas; }
+  .field { @apply w-full rounded-2xl border border-line/10 bg-surface px-4 py-3 text-ink outline-none transition placeholder:text-muted/70 focus:border-ink/40 focus:ring-2 focus:ring-bronze/20; }
+  .field-error { @apply border-red-500/70 focus:border-red-500 focus:ring-red-500/15; }
+  .panel { @apply rounded-3xl bg-card ring-1 ring-line/[.06]; }
+  .skeleton { @apply relative overflow-hidden rounded-2xl bg-line/[.07]; }
+  .skeleton::after { content: ''; @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent; }
+  .dark .skeleton::after { @apply via-white/10; }
+}
+
+@keyframes marquee { to { transform: translateX(-33.3333%); } }
+@keyframes hero-progress { from { width: 0; } to { width: 100%; } }
+@keyframes hero-drift { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.06) translate(-1%, -.6%); } }
+@keyframes sheen { from { transform: translateX(-120%) skewX(-18deg); } to { transform: translateX(220%) skewX(-18deg); } }
+@keyframes concierge-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(var(--accent) / .45); } 50% { box-shadow: 0 0 0 12px rgb(var(--accent) / 0); } }
+
+/* Material close-ups, drawn in CSS so they stay crisp at any size. --tone tints leather and suede. */
+.tex-leather {
+  --tone: #8a5630;
+  background:
+    radial-gradient(circle at 20% 30%, rgb(255 255 255 / .10) 0 1px, transparent 2px) 0 0 / 7px 7px,
+    radial-gradient(circle at 70% 60%, rgb(0 0 0 / .18) 0 1px, transparent 2px) 0 0 / 9px 9px,
+    radial-gradient(120% 90% at 30% 20%, rgb(255 255 255 / .18), transparent 60%),
+    var(--tone);
+  position: relative;
+}
+.tex-leather::after { content: ''; position: absolute; inset: 14px; border: 2px dashed rgb(255 244 225 / .55); border-radius: 14px; }
+.tex-suede {
+  --tone: #2b2a2e;
+  background: repeating-linear-gradient(45deg, rgb(255 255 255 / .035) 0 2px, transparent 2px 4px), radial-gradient(120% 90% at 70% 10%, rgb(255 255 255 / .12), transparent 60%), var(--tone);
+}
+.tex-wood {
+  background:
+    repeating-linear-gradient(92deg, rgb(0 0 0 / .0) 0 9px, rgb(0 0 0 / .18) 10px, rgb(0 0 0 / 0) 13px, rgb(255 220 170 / .08) 22px),
+    repeating-linear-gradient(88deg, rgb(255 255 255 / .05) 0 3px, transparent 3px 17px),
+    linear-gradient(100deg, #4a2c19, #6b4126 40%, #3f2414 70%, #5c3820);
+}
+.tex-carbon {
+  background:
+    linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+    linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0,
+    linear-gradient(27deg, #222 5px, transparent 5px) 0 10px,
+    linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+    linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+    linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+  background-color: #131313;
+  background-size: 20px 20px;
+}
+.tex-metal {
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / .06) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #d9dcdf 0%, #9aa0a6 45%, #c9ccd0 55%, #8b9096 100%);
+}
+
+/* Scroll reveal (see components/Motion.tsx) */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Custom cursor (see components/CustomCursor.tsx) */
+html.cursor-ring, html.cursor-ring *,
+html.cursor-spotlight, html.cursor-spotlight * { cursor: none !important; }
+html.cursor-ring :is(input,textarea,select,[contenteditable]),
+html.cursor-spotlight :is(input,textarea,select,[contenteditable]) { cursor: auto !important; }
+.cursor-layer { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 9999; will-change: transform; }
+.cursor-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 999px; background: rgb(var(--accent)); transition: width .2s, height .2s, margin .2s, opacity .2s; }
+.cursor-ring-el { width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 999px; border: 1.5px solid rgb(var(--ink) / .55); display: grid; place-items: center; transition: width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1), margin .3s cubic-bezier(.2,.8,.2,1), background-color .3s, border-color .3s, opacity .2s; }
+.cursor-ring-el span { font-size: 11px; font-weight: 700; letter-spacing: .08em; white-space: nowrap; text-transform: uppercase; color: #fff; opacity: 0; transition: opacity .2s; }
+.cursor-ring-el.is-hover { width: 56px; height: 56px; margin: -28px 0 0 -28px; border-color: rgb(var(--accent)); background: rgb(var(--accent) / .12); }
+.cursor-ring-el.is-label { width: 84px; height: 84px; margin: -42px 0 0 -42px; border-color: transparent; background: rgb(var(--accent)); }
+.cursor-ring-el.is-label span { opacity: 1; }
+.cursor-ring-el.is-down { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+.cursor-ring-el.is-text { opacity: 0; }
+.cursor-spot { width: 340px; height: 340px; margin: -170px 0 0 -170px; border-radius: 999px; background: radial-gradient(circle, rgb(var(--accent) / .22), rgb(var(--accent) / 0) 65%); mix-blend-mode: multiply; transition: opacity .3s, width .3s, height .3s, margin .3s; }
+.dark .cursor-spot { mix-blend-mode: screen; }
+.cursor-spot.is-hover { width: 200px; height: 200px; margin: -100px 0 0 -100px; background: radial-gradient(circle, rgb(var(--accent) / .38), rgb(var(--accent) / 0) 65%); }
+.cursor-hidden { opacity: 0 !important; }
+
+@media (max-width: 639px) { .section-wrap { padding-inline: 1rem; } .pill-black,.pill-outline { min-height: 44px; text-align: center; } }
+@media (max-width: 480px) { h1, h2, h3 { overflow-wrap: anywhere; } .field { min-width: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1; transform: none; }
 }

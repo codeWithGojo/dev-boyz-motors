@@ -121,4 +121,9 @@ export const referencePhotos: Record<string, ReferencePhoto[]> = {
     { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/2022_Tesla_Model_Y_Long_Range_AWD_Front.jpg/1024px-2022_Tesla_Model_Y_Long_Range_AWD_Front.jpg', source: 'https://commons.wikimedia.org/wiki/File:2022_Tesla_Model_Y_Long_Range_AWD_Front.jpg', name: '2022 Tesla Model Y Long Range AWD Front.jpg' },
     { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/2022_Tesla_Model_Y_Long_Range_AWD.jpg/1024px-2022_Tesla_Model_Y_Long_Range_AWD.jpg', source: 'https://commons.wikimedia.org/wiki/File:2022_Tesla_Model_Y_Long_Range_AWD.jpg', name: '2022 Tesla Model Y Long Range AWD.jpg' },
   ],
+  "29": [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2023_Rolls-Royce_Phantom.jpg/1024px-2023_Rolls-Royce_Phantom.jpg', source: 'https://commons.wikimedia.org/wiki/File:2023_Rolls-Royce_Phantom.jpg', name: '2023 Rolls-Royce Phantom.jpg' },
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Rolls-Royce_Phantom_VIII_Black_%285%29.jpg/1024px-Rolls-Royce_Phantom_VIII_Black_%285%29.jpg', source: 'https://commons.wikimedia.org/wiki/File:Rolls-Royce_Phantom_VIII_Black_(5).jpg', name: 'Rolls-Royce Phantom VIII Black (5).jpg' },
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Rolls-Royce_Phantom%2C_Geneva_International_Motor_Show_2018%2C_Le_Grand-Saconnex_%281X7A1220%29.jpg/1024px-Rolls-Royce_Phantom%2C_Geneva_International_Motor_Show_2018%2C_Le_Grand-Saconnex_%281X7A1220%29.jpg', source: 'https://commons.wikimedia.org/wiki/File:Rolls-Royce_Phantom,_Geneva_International_Motor_Show_2018,_Le_Grand-Saconnex_(1X7A1220).jpg', name: 'Rolls-Royce Phantom, Geneva 2018.jpg' },
+  ],
 }
